@@ -1,0 +1,40 @@
+tosca_definitions_version: tosca_simple_yaml_1_0
+
+node_types:
+
+  tosca.nodes.chain.function:
+    derived_from: tosca.nodes.Root
+    attributes:
+      outputs:
+        type: map
+      persisted_context:
+        type: string
+    interfaces:
+      Standard:
+        type: tosca.interfaces.node.lifecycle.Standard
+        create:
+          implementation: chains.tasks:create
+        start:
+          implementation: chains.tasks:start
+        stop:
+          implementation: chains.tasks:stop
+        delete:
+          implementation: chains.tasks:delete
+
+  tosca.artifacts.chain.persisted_context:
+    derived_from: tosca.artifacts.File
+    file:
+      type: string
+      required: true
+
+  tosca.artifacts.chain.deployment_template:
+    derived_from: tosca.artifacts.File
+    file:
+      type: string
+      required: true
+
+  tosca.artifacts.chain.deployment_inputs:
+    derived_from: tosca.artifacts.File
+    file:
+      type: string
+      required: true
